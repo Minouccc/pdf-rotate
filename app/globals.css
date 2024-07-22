@@ -31,3 +31,11 @@ body {
     text-wrap: balance;
   }
 }
+
+.react-pdf__Document {
+  display: flex;
+}
+
+.react-pdf__Page {
+  margin: 1rem;
+}
