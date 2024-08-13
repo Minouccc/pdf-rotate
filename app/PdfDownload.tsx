@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Document, Page } from "react-pdf";
 import { PDFDocument, degrees } from "pdf-lib";
 import { InboxOutlined } from "@ant-design/icons";
@@ -23,6 +23,7 @@ export function PdfDownload() {
   const [rotationAll, setRotationAll] = useState<number>(0);
   const [inputVisible, setInputVisible] = useState<boolean>(true);
   const [scale, setScale] = useState<number>(1);
+  const initRef = useRef<number | null>();
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFile(event.target.files ? event.target.files[0] : null);
@@ -44,6 +45,18 @@ export function PdfDownload() {
 
   const handleDocumentLoadSuccess = ({ numPages }: { numPages: number }) => {
     setNumPages(numPages);
+  };
+
+  const handlePageLoadSuccess = (page: any, pageNumber: number) => {
+    if (initRef.current) {
+      // 获取页面旋转角度
+      const { rotate } = page;
+      setPageRotations((prevRotations) => ({
+        ...prevRotations,
+        [pageNumber]: rotate,
+      }));
+      initRef.current = initRef.current - 1;
+    }
   };
 
   const handleRemovePdf = () => {
@@ -98,6 +111,10 @@ export function PdfDownload() {
       setInputVisible(true);
     }
   }, [file]);
+
+  useEffect(() => {
+    initRef.current = numPages;
+  }, [numPages]);
 
   return (
     <div className="pdf-viewer">
@@ -161,6 +178,9 @@ export function PdfDownload() {
                 >
                   <Page
                     pageNumber={index + 1}
+                    onLoadSuccess={(page) => {
+                      handlePageLoadSuccess(page, index + 1);
+                    }}
                     rotate={(pageRotations[index + 1] || 0) + rotationAll}
                     width={200}
                     scale={scale}
