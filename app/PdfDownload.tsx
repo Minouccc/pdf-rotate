@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import { Document, Page } from "react-pdf";
 import { PDFDocument, degrees } from "pdf-lib";
+import { InboxOutlined } from "@ant-design/icons";
+
 // import { pdfjs } from "react-pdf";
 
 // pdfjs.GlobalWorkerOptions.workerSrc = new URL(
@@ -9,6 +11,7 @@ import { PDFDocument, degrees } from "pdf-lib";
 //   import.meta.url
 // ).toString();
 import { pdfjs } from "react-pdf";
+import Upload from "./Upload";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 export function PdfDownload() {
@@ -23,6 +26,9 @@ export function PdfDownload() {
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFile(event.target.files ? event.target.files[0] : null);
+  };
+  const handleDragFileChange = (event: File | null) => {
+    setFile(event || null);
   };
 
   const handleRotate = (pageNumber: number, angle: number) => {
@@ -96,7 +102,18 @@ export function PdfDownload() {
   return (
     <div className="pdf-viewer">
       <div className="flex justify-center">
-        {inputVisible && <input type="file" onChange={handleFileChange} />}
+        {/* {inputVisible && <input type="file" onChange={handleFileChange} />} */}
+        {inputVisible && (
+          <Upload
+            handleFileChange={handleFileChange}
+            handleDragFileChange={handleDragFileChange}
+          >
+            <p>
+              <InboxOutlined style={{ fontSize: "50px" }} />
+            </p>
+            <p>点击或者拖拽文件到此处</p>
+          </Upload>
+        )}
         {!inputVisible && (
           <div>
             <button
