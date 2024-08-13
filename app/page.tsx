@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <main className="flex min-h-screen flex-col bg-white">
       <div className="flex flex-col">
-        <div className="p-2.5 flex justify-between items-center">
+        <div className="p-2.5 flex justify-between items-center box-border h-[64px]">
           <div>
             <a href="" className="p-2.5 flex text-xl font-semibold">
               <svg
@@ -39,12 +39,14 @@ export default function Home() {
             </div>
           </div>
         </div>
-        <div className="bg-[#f7f5ee] h-full ">
-          <div className="p-[5rem] mx-auto h-full">
-            <div className="w-[48rem] h-full mx-auto">
-              <div className="flex flex-col text-center !mb-10 justify-center">
-                <h1 className="text-5xl font-semibold">Rotate PDF Pages</h1>
-                <p className="mt-2 text-gray-600 max-w-lg mx-auto">
+        <div className="bg-[#f7f5ee] min-h-[calc(100vh-64px)]">
+          <div className="p-[5rem] mx-auto min-h-full">
+            <div className="w-full min-h-full mx-auto">
+              <div className="flex flex-col text-center mb-6 md:mb-10 justify-center">
+                <h1 className="text-2xl sm:text-3xl md:text-5xl font-semibold">
+                  Rotate PDF Pages
+                </h1>
+                <p className="mt-2 text-gray-600 max-w-xs sm:max-w-md md:max-w-lg mx-auto">
                   Simply click on a page to rotate it. You can then download
                   your modified PDF.
                 </p>
